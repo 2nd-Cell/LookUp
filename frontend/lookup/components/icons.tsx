@@ -161,7 +161,7 @@ export const SearchIcon = (props: IconSvgProps) => (
   <svg
     aria-hidden="true"
     fill="none"
-    focusable="false"
+    focusable="true"
     height="1em"
     role="presentation"
     viewBox="0 0 24 24"
@@ -183,4 +183,123 @@ export const SearchIcon = (props: IconSvgProps) => (
       strokeWidth="2"
     />
   </svg>
+  
 );
+
+export function ProfileIcon({
+  size = "w-10 h-10",
+  bgColor = "bg-blue-200 hover:bg-blue-300 active:bg-blue-200",
+  iconColor = "text-blue-500 hover:text-white"
+}) {
+  return (
+    <div className={`inline-flex items-center justify-center rounded-full ${size} ${bgColor}`}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className={`${size.replace('h-', 'h-').replace('w-', 'w-')} ${iconColor} p-2`}
+      >
+        <path
+          fillRule="evenodd"
+          d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </div>
+  );
+}
+
+export function HamburgerIcon({ 
+  isOpen = false,
+  className = "w-6 h-6",
+  strokeWidth = 1.5,
+  color = "currentColor"
+}) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke={color}
+      className={className}
+      aria-hidden="true"
+    >
+      {isOpen ? (
+        // Close icon (X) when menu is open
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+          d="M6 18L18 6M6 6l12 12"
+        />
+      ) : (
+        // Hamburger icon when menu is closed
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+          d="M4 6h16M4 12h16M4 18h16"
+        />
+      )}
+    </svg>
+  );
+}
+
+export function LeftArrow({ className = "w-6 h-6" }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      className={className}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M15 19l-7-7 7-7"
+      />
+    </svg>
+  );
+}
+
+export function RightArrow({ className = "w-6 h-6" }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      className={className}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M9 5l7 7-7 7"
+      />
+    </svg>
+  );
+}
+
+export const LinkedinIcon: React.FC<IconSvgProps> = ({
+  size = 24,
+  width,
+  height,
+  ...props
+}) => {
+  return (
+    <svg
+      height={size || height}
+      viewBox="0 0 24 24"
+      width={size || width}
+      {...props}
+    >
+      <path
+        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+};

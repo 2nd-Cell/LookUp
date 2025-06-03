@@ -7,135 +7,67 @@ import {
   NavbarItem,
   NavbarMenuItem,
 } from "@heroui/navbar";
-import { Button } from "@heroui/button";
-import { Kbd } from "@heroui/kbd";
-import { Link } from "@heroui/link";
-import { Input } from "@heroui/input";
-import { link as linkStyles } from "@heroui/theme";
-import NextLink from "next/link";
-import clsx from "clsx";
 
-import { siteConfig } from "@/config/site";
-import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  TwitterIcon,
-  GithubIcon,
-  DiscordIcon,
-  HeartFilledIcon,
-  SearchIcon,
-  Logo,
-} from "@/components/icons";
+import {Input} from "@heroui/input";
+import { ProfileIcon, SearchIcon, HamburgerIcon } from "./icons";
+import {Button, ButtonGroup} from "@heroui/button";
+import { useState } from "react";
 
 export const Navbar = () => {
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder="Search..."
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
-      type="search"
-    />
-  );
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky">
-      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Logo />
-            <p className="font-bold text-inherit">ACME</p>
-          </NextLink>
-        </NavbarBrand>
-        <div className="hidden lg:flex gap-4 justify-start ml-2">
-          {siteConfig.navItems.map((item) => (
-            <NavbarItem key={item.href}>
-              <NextLink
-                className={clsx(
-                  linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium",
-                )}
-                color="foreground"
-                href={item.href}
-              >
-                {item.label}
-              </NextLink>
-            </NavbarItem>
-          ))}
+    <HeroUINavbar className="fixed bg-transparent " maxWidth="full">
+
+      <div className="flex md:hidden">
+        <button 
+          onClick={() => setIsMenuOpen(!isMenuOpen)} 
+          className="z-50">
+
+          <HamburgerIcon />
+        </button>
+
+  {/* Changed: Added transform and transition classes */}
+        <div className={`
+          absolute left-0 flex-col justify-end pt-12 pl-3 h-screen w-[40vw] bg-white
+          transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+          transition-transform duration-300 ease-in-out
+          z-20`}>
+
+          <div className="p-3 hover:bg-gray-100">Discover</div>
+          <div className="p-3 hover:bg-gray-100">Community</div>
+          <div className="p-3 hover:bg-gray-100">About</div>
         </div>
+      </div>
+
+      <NavbarContent>
+        <NavbarBrand className="text-blue-500 text-3xl font-bold">LookUp</NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
-        <NavbarItem className="hidden sm:flex gap-2">
-          <Link isExternal href={siteConfig.links.twitter} title="Twitter">
-            <TwitterIcon className="text-default-500" />
-          </Link>
-          <Link isExternal href={siteConfig.links.discord} title="Discord">
-            <DiscordIcon className="text-default-500" />
-          </Link>
-          <Link isExternal href={siteConfig.links.github} title="GitHub">
-            <GithubIcon className="text-default-500" />
-          </Link>
-          <ThemeSwitch />
-        </NavbarItem>
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
-        <NavbarItem className="hidden md:flex">
-          <Button
-            isExternal
-            as={Link}
-            className="text-sm font-normal text-default-600 bg-default-100"
-            href={siteConfig.links.sponsor}
-            startContent={<HeartFilledIcon className="text-danger" />}
-            variant="flat"
-          >
-            Sponsor
-          </Button>
-        </NavbarItem>
+      <NavbarContent justify="end" className="hidden md:flex">
+        <NavbarItem className="text-xl text-gray-500">Discover</NavbarItem>
+        <NavbarItem className="text-xl text-gray-500">Community</NavbarItem>
+        <NavbarItem className="text-xl text-gray-500">About</NavbarItem>
       </NavbarContent>
 
-      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
-        <ThemeSwitch />
-        <NavbarMenuToggle />
+      <NavbarContent justify="end">
+        <Button>LogIn</Button>
+      </NavbarContent>
+{/* 
+      <NavbarBrand className="text-blue-500 text-3xl font-bold"><button>LookUp</button></NavbarBrand>
+
+      <NavbarContent className="hidden md:flex" justify="start">
+        <NavbarItem className="text-xl"><button>Home</button></NavbarItem>
+        <NavbarItem className="text-xl"><button>Categories</button></NavbarItem>
       </NavbarContent>
 
-      <NavbarMenu>
-        {searchInput}
-        <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
-                }
-                href="#"
-                size="lg"
-              >
-                {item.label}
-              </Link>
-            </NavbarMenuItem>
-          ))}
-        </div>
-      </NavbarMenu>
+      <NavbarContent>
+        <Input type="search" classNames={{inputWrapper: ["bg-white" , "w-[30vw]"]}} startContent={<SearchIcon/>} placeholder="Search"></Input>
+      </NavbarContent> */}
+
+      {/* <NavbarContent justify="end"><button><ProfileIcon/></button></NavbarContent> */}
+  
     </HeroUINavbar>
   );
 };
