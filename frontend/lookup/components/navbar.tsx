@@ -12,13 +12,18 @@ import {Input} from "@heroui/input";
 import { ProfileIcon, SearchIcon, HamburgerIcon } from "./icons";
 import {Button, ButtonGroup} from "@heroui/button";
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
+import Link from "next/link";
 
 export const Navbar = () => {
 
+  const router = useRouter();
+  const [cookies, removeCookie] = useCookies(['token']);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <HeroUINavbar className="fixed bg-transparent " maxWidth="full">
+    <HeroUINavbar className="fixed bg-transparent border-b-1" maxWidth="full">
 
       <div className="flex md:hidden">
         <button 
@@ -35,24 +40,26 @@ export const Navbar = () => {
           transition-transform duration-300 ease-in-out
           z-20`}>
 
-          <div className="p-3 hover:bg-gray-100">Discover</div>
+          <Link href={"/discover"}><div className="p-3 hover:bg-gray-100">Discover</div></Link>
           <div className="p-3 hover:bg-gray-100">Community</div>
           <div className="p-3 hover:bg-gray-100">About</div>
         </div>
       </div>
 
       <NavbarContent>
-        <NavbarBrand className="text-blue-500 text-3xl font-bold">LookUp</NavbarBrand>
+        <Link href={"/"}><NavbarBrand className="text-blue-500 text-3xl font-bold">LookUp</NavbarBrand></Link>
       </NavbarContent>
 
       <NavbarContent justify="end" className="hidden md:flex">
-        <NavbarItem className="text-xl text-gray-500">Discover</NavbarItem>
+        <Link href={"/discover"}><NavbarItem className="text-xl text-gray-500">Discover</NavbarItem></Link>
         <NavbarItem className="text-xl text-gray-500">Community</NavbarItem>
         <NavbarItem className="text-xl text-gray-500">About</NavbarItem>
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <Button>LogIn</Button>
+        {!cookies.token && (
+          <Button onPress={() => router.push("/login")}>LogIn</Button>
+        )}
       </NavbarContent>
 {/* 
       <NavbarBrand className="text-blue-500 text-3xl font-bold"><button>LookUp</button></NavbarBrand>

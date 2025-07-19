@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { TwitterIcon, GithubIcon, LinkedinIcon } from './icons'
 
 export const Footer = () => {
@@ -8,7 +9,7 @@ export const Footer = () => {
             <div className="grid grid-cols-2 grid-rows-2 md:grid-cols-4 md:grid-rows-1 justify-center gap-y-1 md:gap-4 px-4 py-0">
 
                 <div className="p-6">
-                    <div className="font-bold text-lg md:text-2xl text-blue-500 mb-2">LookUp</div>
+                    <Link href={"/"}><div className="font-bold text-lg md:text-2xl text-blue-500 mb-2">LookUp</div></Link>
                     <div className="text-[#869198] text-sm md:text-base">The Answer to "Where Do I Find Answers?"</div>
                 </div>
 
