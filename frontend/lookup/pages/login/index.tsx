@@ -3,18 +3,19 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import { useCookies } from "react-cookie";
 
 export default function login() {
-
     const router = useRouter();
+    const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Proper hook usage
 
     const [inputValue, setInputValue] = useState({
-        email: "",
+        username: "",
         password: "",
     });
 
-    const { email, password } = inputValue;
+    const { username, password } = inputValue;
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -36,29 +37,34 @@ export default function login() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const { data } = await axios.post(
-                "http://localhost:3000/login",
-                {
-                    ...inputValue,
+            const response = await fetch("http://localhost:8000/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
                 },
-                { withCredentials: true }
-            );
-            console.log(data);
-            const { success, message } = data;
-            if (success) {
-                handleSuccess(message);
-                setTimeout(() => {
-                    router.push("/");
-                }, 1000);
+                body: JSON.stringify({
+                    password: password,
+                    username: username,
+                }),
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Login successful:", data);
+                window.location.href = "/"; // Redirect to home page on successful login
+                // You can store the token in localStorage or handle it as needed
+                setCookie("token", data.token);
+                localStorage.setItem("token", data.token);
+                window.location.href = "/"; // Redirect to home page on successful login
             } else {
-                handleError(message);
+                console.error("Login failed:", response.statusText);
             }
         } catch (error) {
-            console.log(error);
+            console.error("Error during login:", error);
+            handleError("An error occurred during signup. Please try again.");
         }
         setInputValue({
             ...inputValue,
-            email: "",
+            username: "",
             password: "",
         });
     };
@@ -68,12 +74,12 @@ export default function login() {
             <h2>Login Account</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="username">username</label>
                     <input
-                        type="email"
-                        name="email"
-                        value={email}
-                        placeholder="Enter your email"
+                        type="username"
+                        name="username"
+                        value={username}
+                        placeholder="Enter your username"
                         onChange={handleOnChange}
                     />
                 </div>
@@ -89,10 +95,11 @@ export default function login() {
                 </div>
                 <button type="submit">Submit</button>
                 <span>
-                    Already have an account? <Link href={"/signup"}>Signup</Link>
+                    Already have an account?{" "}
+                    <Link href={"/signup"}>Signup</Link>
                 </span>
             </form>
             <ToastContainer />
         </div>
-    )
+    );
 }
