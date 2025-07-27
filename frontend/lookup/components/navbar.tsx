@@ -73,7 +73,7 @@ export const Navbar = () => {
 
             <NavbarContent justify="end">
                 {cookies.token == null ? (
-                    <Button onPress={() => router.push("/login")}>LogIn</Button>
+                    <Button onPress={() => router.push("/signup")}>LogIn</Button>
                 ) : (
                     <NavbarItem className="text-xl text-gray-500">
                         Dashboard
